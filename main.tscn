@@ -1,0 +1,48 @@
+[gd_scene load_steps=8 format=3 uid="uid://chg8rhpwqmpry"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_51ufx"]
+[ext_resource type="PackedScene" uid="uid://dh68mqhcra4ok" path="res://paddle.tscn" id="1_mas4v"]
+[ext_resource type="PackedScene" uid="uid://pkp0e2dsenn7" path="res://wall.tscn" id="2_nwi3h"]
+[ext_resource type="PackedScene" uid="uid://bw7qaqqj4opp2" path="res://ball.tscn" id="3_lv3q8"]
+[ext_resource type="Texture2D" uid="uid://dfe2ugk0sj75c" path="res://divider.png" id="5_hkjdm"]
+[ext_resource type="PackedScene" uid="uid://86lvsrrgtdvx" path="res://hud.tscn" id="6_qqql4"]
+[ext_resource type="AudioStream" uid="uid://chint6c5pd13b" path="res://score.wav" id="7_0ls3s"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_51ufx")
+ball_scene = ExtResource("3_lv3q8")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Ceiling" parent="." instance=ExtResource("2_nwi3h")]
+position = Vector2(128, 0)
+
+[node name="Floor" parent="." instance=ExtResource("2_nwi3h")]
+position = Vector2(128, 128)
+
+[node name="Divider" type="Sprite2D" parent="."]
+position = Vector2(128, 64)
+texture = ExtResource("5_hkjdm")
+
+[node name="HUD" parent="." instance=ExtResource("6_qqql4")]
+
+[node name="P1" parent="." instance=ExtResource("1_mas4v")]
+position = Vector2(8, 64)
+player = 1
+
+[node name="P2" parent="." instance=ExtResource("1_mas4v")]
+position = Vector2(248, 64)
+player = 2
+
+[node name="ScoreSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_0ls3s")
+volume_db = -10.0
+
+[connection signal="exit_game" from="HUD" to="." method="_on_hud_exit_game"]
+[connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
